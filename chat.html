@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBpQOjE7MXFMK5nn8T6dvjeG9-8f8ymWW4",
+            authDomain: "chatapp-1f75d.firebaseapp.com",
+            databaseURL: "https://chatapp-1f75d.firebaseio.com",
+            projectId: "chatapp-1f75d",
+            storageBucket: "chatapp-1f75d.appspot.com",
+            messagingSenderId: "880223391613"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/2.3.0/angularfire.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="w3-container w3-teal">
+        <h1>My Chat App</h1>
+    </div>
+    <!-- Chat Lines -->
+    <div class="w3-panel">
+        <ul>
+            <li ng-repeat="m in msgs" class="w3-panel w3-padding-16 w3-round-xxlarge w3-blue">{{m.text}}</li>
+        </ul>
+    </div>
+    <div class="w3-panel">
+        <form onsubmit="writeMsg(event)" class="w3-container">
+            <p>
+                <input id="msgField" class="w3-input" type="text" placeholder="Write Message...">
+            </p>
+        </form>
+    </div>
+    <!-- Chat lines End -->
+    <script>
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(window.location.search.indexOf('?') + 1, window.location.search.length);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        };
+
+        var chatChild = getQueryVariable('p_id') + "_" + getQueryVariable('s_id') + "_" + getQueryVariable('b_id');
+
+        console.log(firebase.auth());
+        const db = firebase.database();
+        var app = angular.module('myApp', ['firebase']);
+        app.controller('myCtrl', function ($scope, $firebaseArray) {
+            $scope.msgs = [];
+            if (getQueryVariable('b_id') == getQueryVariable('s_id')) {
+                firebase.database().ref('messages').on('value', function (snapshot) {
+                    let data = snapshot.val();
+                    for(n in data){
+                        if(n.includes(getQueryVariable('p_id') + "_" + getQueryVariable('s_id'))){
+                            for(t in data[n]){
+                                $scope.msgs.push(data[n][t]);
+                                $scope.$applyAsync();
+                                console.log($scope.msgs);
+                            }
+                        }
+                    }
+                });
+            }
+            else
+                $scope.msgs = $firebaseArray(db.ref('messages/' + chatChild));
+        });
+        function writeMsg(e) {
+            e.preventDefault();
+            var msg = document.getElementById('msgField').value;
+            let child = {
+                id: Number(getQueryVariable('b_id')),
+                text: msg,
+                name: decodeURIComponent(getQueryVariable('name'))
+            }
+            console.log(child);
+            db.ref('messages/' + chatChild).push(child)
+                .then(sucess => {
+                    console.log(sucess);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            document.getElementById('msgField').value = "";
+        }
+    </script>
+</body>
+
+</html>
