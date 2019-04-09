@@ -6,10 +6,8 @@
 		$_SESSION["U_id"] = null;
 	}
 	$sql=mysqli_query($db,"SELECT U_name FROM user_info WHERE U_id={$_SESSION["U_id"]}");
-
 	$sql_1 = mysqli_query($db,"SELECT * FROM request_to_sell_product where P_approval != 'need_approval'");
 ?>
-
 <html>
 	<head>
 		<title>BirdNest ... an Online Property Finder</title>
@@ -22,39 +20,35 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
-			<header id="header">
-				<div class="inner">
-					<a href="index.php" class="logo">BirdNest Home</a>
-					<nav id="nav">
-					
-						<a class="w3-large" href="User_login.php">Login</a>
-						<a class="w3-large" href="User_Registration.php">Registration</a>
-						<a class="w3-large" href="contact.php">Contact Us</a>					
-					</nav><a>
-							<form action="index.php" method="POST"> <!-- action="Search_view.php" -->
-								<input type="text" name="search" placeholder="Name/Address">
-								<button type="submit" class="btn_2" name="submit_3">Find Now</button> <!--  value="save" -->
-							</form></a>
-							<?php	
-							if(isset($_POST["submit_3"]))
-							{
-								?>
-								<script>
-									//alert("Sorry. It is not complete yet");
-								</script>
-								<?php
-								echo "<script>window.open('Search_view.php','_self');</script>";
-							}
-							?>
+		<header id="header">
+			<div class="inner">
+				<a href="index.php" class="logo">BirdNest Home</a>
+				<nav id="nav">		
+					<a class="w3-large" href="User_login.php">Login</a>
+					<a class="w3-large" href="User_Registration.php">Registration</a>
+					<a class="w3-large" href="contact.php">Contact Us</a>					
+				</nav>
+				<a>
+					<form action="index.php" method="POST"> <!-- action="Search_view.php" -->
+						<input type="text" name="search" placeholder="Name/Address">
+						<button type="submit" class="btn_2" name="submit_3">Find Now</button> <!--  value="save" -->
+					</form>
+				</a>
+				<?php	
+					if(isset($_POST["submit_3"]))
+					{
+						echo "<script>window.open('Search_view.php','_self');</script>";
+					}
+				?>
 				</div>
 			</header>
 
 		<!-- Banner -->
 			<section id="banner">
 				<h1>Welcome to BirdNest</h1>
-				<p>an Online Property Finder</p>
-
-					</section>
+				<p><font text size="5">an Online Property Finder</font></p>
+			</section>
+			
 		<!-- One -->
 			<section id="one" class="wrapper">
 				<div class="inner">
@@ -98,57 +92,57 @@
 				<div class="inner">
 					<header>
 						<h2>Most Visited</h2>
-						<p>Flat and Commercial space are available here</p>
+						<p><font color="blue" text size="4">Flat and Commercial space are available here </font></p>
 					</header>
-					<div class="display: flex">
+					<font color="black" text size="4" background color="blue">
+					<div class="display: flex" >
 					<?php
 					while($res=mysqli_fetch_array($sql_1)){
-						?>
-						
-									<div class="box person">
-										<div class="image square">
-											<center><?php $_SESSION["P_id"] = "$res[P_id]"; 
-											echo '<img height = "180" width = "180" src="data:P_pic_1;base64,'.$res['P_pic_1'].'">';?> </center>
-											<?php echo "<p>".$res['P_type']."</p>";?> at <?php echo "<p>".$res['P_location']."</p>";?> 
-											<?php echo "<p>".$res['P_for_sell_rent']."</p>";?>
-											<?php echo "<a href=\"Property_Details.php?P_id=$res[P_id]\">View Details</a></td>";?>		
-										</div>
-									</div>
-						
-					<?php
-					}
-				?>
-				</div>
-						<form action="index.php" method="POST">             <!--  action="index.php" method="POST" -->
-							<button type = "submit" name = "submit_2" class="btn_2"> Sell or Rent any Property</button>  <!--</button>  class="btn btn-primary" -->
-						</form>
-					<?php	
-						if(isset($_POST["submit_2"]))
-						{
-							if(($_SESSION["U_id"]) == null)
-								{
-									?>
-									<script>
-										alert("Need to registration");
-									</script>
-									<?php
-									echo"<script>window.open('User_login.php','_self');</script>";	
-								}
-							else
-								{ 
-									echo "<script>window.open('Sell_property.php','_self');</script>";
-								}
+						?>  
+							<div class="box person">
+								<div class="image square">
+									<center><?php $_SESSION["P_id"] = "$res[P_id]"; 
+									echo '<img height = "180" width = "180" src="data:P_pic_1;base64,'.$res['P_pic_1'].'">';?> </center>
+									<br>
+									<?php echo "<p>".$res['P_type']."</p>";?> at <?php echo "<p>".$res['P_location']."</p>";?> 
+									<?php echo "<p>".$res['P_for_sell_rent']."</p>";?>
+									<?php echo "<a href=\"Property_Details.php?P_id=$res[P_id]\">View Details</a></td>";?>		
+								</div>
+							</div>
+						<?php
 						}
-					?>
-					
-					
+						?>
+					</div>
+					</font>
 				</div>
+					<form action="index.php" method="POST">
+						<button type = "submit" name = "submit_2" class="btn_2"> Sell or Rent any Property</button>
+					</form>
+				
+				<?php	
+					if(isset($_POST["submit_2"]))
+					{
+						if(($_SESSION["U_id"]) == null)
+							{
+								?>
+								<script>
+									alert("Need to registration");
+								</script>
+								<?php
+								echo"<script>window.open('User_login.php','_self');</script>";	
+							}
+						else
+							{ 
+								echo "<script>window.open('Sell_property.php','_self');</script>";
+							}
+					}
+				?>	
+		</div>
 			</section>
 		<!-- Footer -->
 			<div class="footer">
 			<footer><p>Copyright &copy; Sarataj Sultan </p></footer>
 		</div>
-
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
