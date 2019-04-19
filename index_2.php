@@ -106,54 +106,55 @@
 				<div class="inner">
 					<header>
 						<h2>Most Visited</h2>
-						<p>Flat and Commercial space are available here</p>
+						<p><font color="blue" text size="4">Flat and Commercial space are available here </font></p>
 					</header>
-
-					<div class="display: flex">
+					<font color="black" text size="4" background color="blue">
+					<div class="display: flex" >
 					<?php
 					foreach ($result as $key  => $res) {
-					?>
-									<div class="box person">
-										<div class="image square">
-											<center><?php $_SESSION["P_id"] = "$res[P_id]"; 
-											echo '<img height = "180" width = "180" src="data:P_pic_1;base64,'.$res['P_pic_1'].'">';?> </center>
-											<?php echo "<p>".$res['P_type']."</p>";?> at <?php echo "<p>".$res['P_location']."</p>";?> 
-											<?php echo "<p>".$res['P_for_sell_rent']."</p>";?>
-											<?php echo "<a href=\"Property_Details.php?P_id=$res[P_id]\">View Details</a></td>";?>		
-										</div>
-									</div>
-					<?php
+						?>  
+							<div class="box person">
+								<div class="image square">
+									<center><?php $_SESSION["P_id"] = "$res[P_id]"; 
+									echo '<img height = "180" width = "180" src="data:P_pic_1;base64,'.$res['P_pic_1'].'">';?> </center>
+									<br>
+									<?php echo "<p>".$res['P_type']."</p>";?> at <?php echo "<p>".$res['P_location']."</p>";?> 
+									<?php echo "<p>".$res['P_for_sell_rent']."</p>";?>
+									<?php echo "<a href=\"Property_Details.php?P_id=$res[P_id]\">View Details</a></td>";?>		
+								</div>
+							</div>
+						<?php
 						}
-					?>
+						?>
 					</div>
-
-
-					
-						<form action="index.php" method="POST">             <!--  action="index.php" method="POST" -->
-							<button type = "submit" name = "submit_2" class="btn_2"> Sell or Rent any Property</button>  <!--</button>  class="btn btn-primary" -->
-						</form>
-					<?php	
-						if(isset($_POST["submit_2"]))
-						{
-							if(($_SESSION["U_id"]) == null)
-								{
-									?>
-									<script>
-										alert("Need to registration");
-									</script>
-									<?php
-									echo"<script>window.open('User_login.php','_self');</script>";	
-								}
-							else
-								{ 
-									echo "<script>window.open('Sell_property.php','_self');</script>";
-								}
-						}
-					?>
-					
-					
+					</font>
 				</div>
+					<form action="index.php" method="POST">
+						<button type = "submit" name = "submit_2" class="btn_2"> Sell or Rent any Property</button>
+					</form>
+				
+				<?php	
+					if(isset($_POST["submit_2"]))
+					{
+						if(($_SESSION["U_id"]) == null)
+							{
+								?>
+								<script>
+									alert("Need to registration");
+								</script>
+								<?php
+								echo"<script>window.open('User_login.php','_self');</script>";	
+							}
+						else
+							{ 
+								echo "<script>window.open('Sell_property.php','_self');</script>";
+							}
+					}
+				?>	
+		</div>
 			</section>
+
+
 		<!-- Footer -->
 			<div class="footer">
 			<footer><p>Copyright &copy; Sarataj Sultan </p></footer>
